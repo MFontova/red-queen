@@ -2,9 +2,11 @@
 import { ExpandableLetter } from "@/components/ExpandableLetter";
 import Letter from "@/components/Letter.astro";
 import MainLayout from "@/layouts/MainLayout.astro";
+import ErrorMessage from "@/components/ErrorMessage.astro";
 
 let message = ''
 let correct = false
+let error = false
 let expandedLetter = true
 
 if(Astro.request.method === "POST") {
@@ -17,9 +19,11 @@ if(Astro.request.method === "POST") {
       correct = true
       message = ''
       expandedLetter = false
+      error = false
     } else {
       message = 'Resposta incorrecta'
       correct = false
+      error = true
     }
   } catch (error) {
     console.log(error)
@@ -28,23 +32,32 @@ if(Astro.request.method === "POST") {
 ---
 
 <MainLayout>
-  <h1 class="font-semibold">Primera prova</h1>
+  <h1 class="font-semibold">La direcció secreta</h1>
   <div class="flex flex-col gap-5">
-    <ExpandableLetter expanded={expandedLetter}>
-      <p>Aquesta és la primera prova a la que t'enfrentaràs avui. Com t'he dit, tinc a l'Antonia capturada i la primera cosa que hauràs de fer és desxifrar on.</p>
-      <p>Quan aconsegueixis treure l'entrellat d'aquesta prova, obtindràs la direcció d'on estem</p>
-      <p>I recorda, això es un joc de 3 😉</p>
-    </ExpandableLetter>
+    {
+      error 
+        && (
+          <ErrorMessage>
+            La direcció que has introduit no és la mateixa on ens trobem l'Antonia i jo.
+          </ErrorMessage>
+        )
+    }
     {correct && 
       <Letter>
         <p>Genial! Ara ja saps on venir a buscar a la teva amiga.</p>
         <a href="/prova2" class="text-center">Anar</a>
       </Letter>
     }
+    <ExpandableLetter expanded={expandedLetter} client:idle>
+      <p>Aquesta és la primera prova a la que t'enfrentaràs avui. Com t'he dit, tinc a l'Antonia capturada i la primera cosa que hauràs de fer és desxifrar on.</p>
+      <p>Quan aconsegueixis treure l'entrellat d'aquesta prova, obtindràs la direcció d'on estem</p>
+      <p>I recorda, això es un joc de 3 😉</p>
+    </ExpandableLetter>
     <Letter>
       <p>Direcció xifrada:</p>
       <code class="bg-orange-950 text-orange-200 rounded-md p-2">
-        Fduuhu Hqljpd V/Q
+        <!-- Fduuhu Hqljpd V/Q -->
+        Zxoobo Bkfdjx P/K
       </code>
       <form method="post" class="flex flex-col gap-5">
         <div class="flex flex-col gap-1">

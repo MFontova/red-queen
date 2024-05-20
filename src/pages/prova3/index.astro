@@ -1,14 +1,15 @@
 ---
+import ErrorMessage from "@/components/ErrorMessage.astro";
 import { ExpandableLetter } from "@/components/ExpandableLetter";
 import Letter from "@/components/Letter.astro";
 import MainLayout from "@/layouts/MainLayout.astro";
-import type { ActionError } from "astro:actions";
 
 const rooms = [11,12,13,14,15,21,22,23,24,25,31,32,33,34,35,41,42,43,44,45]
 
 let message = ''
 let correct = false
 let letterExpanded = true
+let error = false
 
 if(Astro.request.method === 'POST') {
   try {
@@ -19,8 +20,10 @@ if(Astro.request.method === 'POST') {
       correct = true
       message = ''
       letterExpanded = false
+      error = false
     } else {
       message = 'La resposta no es correcta.'
+      error = true
     }
   } catch (error) {
     
@@ -30,8 +33,21 @@ if(Astro.request.method === 'POST') {
 ---
 
 <MainLayout>
-  <h1 class="font-semibold">Tercera prova</h1>
+  <h1 class="font-semibold">L'habitació secreta</h1>
   <div class="flex flex-col gap-5">
+    {
+      error &&
+        <ErrorMessage>
+          Aquesta no és la porta correcta... Hauràs de seguir investigant.
+        </ErrorMessage>
+    }
+    {
+      correct && 
+        <Letter>
+          <p>Has endevinat l'habitació, ara ja pots entrar. Estàs preparada?</p>
+          <a href="/prova4" class="text-center">Entrar</a>
+        </Letter>
+    }
     <ExpandableLetter expanded={letterExpanded} client:idle>
       <p>Com pots veure, aquest edifici és bastant gran. Té 4 plantes i un total de 20 habitacions.</p>
       <p>En alguna d'aquestes habitacions hi som l'Antonia i jo. Per descobrir quina habitació és, només contaràs amb dos pistes:</p>
@@ -40,15 +56,6 @@ if(Astro.request.method === 'POST') {
         <li>Des d'aquesta habitació podem veure com es pon el sol.</li>
       </ul>
     </ExpandableLetter>
-    {
-      correct
-        && (
-          <Letter>
-            <p>Has endevinat l'habitació, ara ja pots entrar. Estàs preparada?</p>
-            <a href="/ultima-prova" class="text-center">Entrar</a>
-          </Letter>
-        )
-    }
     <div class="grid grid-cols-5 bg-cover bg-center" style="backgroundd-image: url('/images/917013_OC1KI91.svg');">
       {
         rooms.reverse().map(room => <div class="flex justify-center border py-5 hover:bg-gray-900 transition-colors" onclick={`handleRoomClick(${room})`}>{room}</div>)

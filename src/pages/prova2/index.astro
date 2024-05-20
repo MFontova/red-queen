@@ -1,4 +1,5 @@
 ---
+import ErrorMessage from "@/components/ErrorMessage.astro";
 import { ExpandableLetter } from "@/components/ExpandableLetter";
 import Letter from "@/components/Letter.astro";
 import MainLayout from "@/layouts/MainLayout.astro";
@@ -6,6 +7,7 @@ import MainLayout from "@/layouts/MainLayout.astro";
 let message = ''
 let correct = false
 let expandedLetter = true
+let error = false
 
 if(Astro.request.method === "POST") {
   try {
@@ -18,8 +20,10 @@ if(Astro.request.method === "POST") {
       correct = true
       message = ''
       expandedLetter = false
+      error = false
     } else {
       message = 'Revisa bé les solucions que has donat, hi ha algun error!'
+      error = true
     }
   } catch (error) {
     
@@ -28,12 +32,14 @@ if(Astro.request.method === "POST") {
 ---
 
 <MainLayout>
-  <h1 class="font-semibold">Segona prova</h1>
+  <h1 class="font-semibold">La porta màgica</h1>
   <div class="flex flex-col gap-5">
-    <ExpandableLetter expanded={expandedLetter} client:idle>
-      <p>Molt bé, Mariona. Has aconseguit desxifrar el primer enigma. La veritat és que era molt senzill. Aquesta vegada t'ho posaré una mica més difícil.</p>
-      <p>Davant teu tens l'edifici on estem l'Antonia i jo. Per accedir, només existeix una manera: a través de la porta principal. Aquesta porta té tres sistemes de seguretat. Els hauràs de resoldre els tres per obrir-la.</p>
-    </ExpandableLetter>
+    {
+      error &&
+        <ErrorMessage>
+          <p>Alguna de les tres solucions no és correcta.</p>
+        </ErrorMessage>
+    }
     {
       correct &&
         <Letter>
@@ -41,6 +47,10 @@ if(Astro.request.method === "POST") {
           <a href="/prova3" class="text-center">Entrar</a>
         </Letter>
     }
+    <ExpandableLetter expanded={expandedLetter} client:idle>
+      <p>Ara que has aconseguit desxifrar el primer enigma, t'he de confesar que era molt senzill. Aquesta vegada t'ho posaré una mica més difícil.</p>
+      <p>Davant teu tens l'edifici on estem l'Antonia i jo. Per accedir només existeix una manera: a través de la porta principal. Aquesta porta té tres sistemes de seguretat. Els hauràs de resoldre els tres per obrir-la.</p>
+    </ExpandableLetter>
     <div class="bg-orange-950 rounded-md p-5">
       <form method="post">
         <div class="flex flex-col gap-10 items-center">

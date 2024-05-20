@@ -1,0 +1,113 @@
+---
+import { ExpandableLetter } from "@/components/ExpandableLetter";
+import MainLayout from "@/layouts/MainLayout.astro";
+import TriangleSerie from "@/components/TriangleSerie.astro"
+import ErrorMessage from "@/components/ErrorMessage.astro";
+import Letter from "@/components/Letter.astro";
+
+let message = ''
+let correct = false
+let letterExpanded = true
+let error = false
+
+if(Astro.request.method === 'POST') {
+  try {
+    const data = await Astro.request.formData()
+    const first = data.get('first')
+    const second = data.get('second')
+    const third = data.get('third')
+
+    if (first?.toString() === '19' && second?.toString() === '56' && third?.toString() === '20') {
+      correct = true
+      message = ''
+      letterExpanded = false
+      error = false
+    } else {
+      message = 'La resposta no es correcta.'
+      error = true
+    }
+  } catch (error) {
+    
+  }
+}
+---
+
+<MainLayout>
+  <h1 class="font-semibold">Els tres números finals</h1>
+  <div class="flex flex-col gap-5">
+    {
+      error &&
+        <ErrorMessage>
+          <p>La caixa no s'obra, sembla que t'has equivocat de números</p>
+        </ErrorMessage>
+    }
+    {
+      correct && 
+        <Letter>
+          <p>La caixa ha fet un soroll, com si un mecanisme s'haguès mogut.</p>
+          <p>Estàs segura que vols obrir la caixa?</p>
+          <a href="/final" class="text-center">Obrir</a>
+        </Letter>
+    }
+    <ExpandableLetter expanded={letterExpanded} client:idle>
+      <p>Ja pots relaxar-te, Mariona! Sóc l'Antonia i ningú m'ha segrestat. T'estava posant a prova per saber si estàs preparada per continuar amb les meves aventures.</p>
+      <p>Només has de passar una última prova, que consisteix en obrir la caixa que tens davant.</p>
+      <p>Per fer-ho, has d'introduïr els números correctes tenint en compte les següents sèries numèriques:</p>
+    </ExpandableLetter>
+    <form method="post">
+      <div class="grid grid-cols-4 gap-5 items-center">
+        <TriangleSerie>
+          <p slot="first">4</p>
+          <p slot="second">8</p>
+          <p slot="third">12</p>
+        </TriangleSerie>
+        <TriangleSerie>
+          <p slot="first">5</p>
+          <p slot="second">9</p>
+          <p slot="third">14</p>
+        </TriangleSerie>
+        <TriangleSerie>
+          <p slot="first">7</p>
+          <p slot="second">12</p>
+          <p slot="third">?</p>
+        </TriangleSerie>
+        <input type="number" name="first" class="h-8" required>
+  
+        <TriangleSerie>
+          <p slot="first">1</p>
+          <p slot="second">0</p>
+          <p slot="third">0</p>
+        </TriangleSerie>
+        <TriangleSerie>
+          <p slot="first">5</p>
+          <p slot="second">6</p>
+          <p slot="third">30</p>
+        </TriangleSerie>
+        <TriangleSerie>
+          <p slot="first">7</p>
+          <p slot="second">8</p>
+          <p slot="third">?</p>
+        </TriangleSerie>
+        <input type="number" name="second" class="h-8" required>
+  
+        <TriangleSerie>
+          <p slot="first">3</p>
+          <p slot="second">2</p>
+          <p slot="third">13</p>
+        </TriangleSerie>
+        <TriangleSerie>
+          <p slot="first">5</p>
+          <p slot="second">9</p>
+          <p slot="third">106</p>
+        </TriangleSerie>
+        <TriangleSerie>
+          <p slot="first">4</p>
+          <p slot="second">2</p>
+          <p slot="third">?</p>
+        </TriangleSerie>
+        <input type="number" name="third" class="h-8" required>
+      </div>
+      <input type="submit" class="mt-5">
+    </form>
+  </div>
+</MainLayout>
