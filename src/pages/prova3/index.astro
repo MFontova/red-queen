@@ -51,7 +51,7 @@ if(Astro.request.method === 'POST') {
     }
     <div class="grid grid-cols-5 bg-cover bg-center" style="backgroundd-image: url('/images/917013_OC1KI91.svg');">
       {
-        rooms.reverse().map(room => <div class="flex justify-center border p-10 hover:bg-gray-900 transition-colors" onclick={`handleRoomClick(${room})`}>{room}</div>)
+        rooms.reverse().map(room => <div class="flex justify-center border py-5 hover:bg-gray-900 transition-colors" onclick={`handleRoomClick(${room})`}>{room}</div>)
       }
     </div>
     <form method="post" class="flex flex-col gap-5">
