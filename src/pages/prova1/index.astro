@@ -1,0 +1,58 @@
+---
+import { ExpandableLetter } from "@/components/ExpandableLetter";
+import Letter from "@/components/Letter.astro";
+import MainLayout from "@/layouts/MainLayout.astro";
+
+let message = ''
+let correct = false
+let expandedLetter = true
+
+if(Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData()
+    const solution = data.get('solution')
+
+    const correctSolution = 'Carrer Enigma S/N'
+    if(solution && solution.toString().trim().toLowerCase() === correctSolution.toLowerCase()) {
+      correct = true
+      message = ''
+      expandedLetter = false
+    } else {
+      message = 'Resposta incorrecta'
+      correct = false
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+---
+
+<MainLayout>
+  <h1 class="font-semibold">Primera prova</h1>
+  <div class="flex flex-col gap-5">
+    <ExpandableLetter expanded={expandedLetter}>
+      <p>Aquesta és la primera prova a la que t'enfrentaràs avui. Com t'he dit, tinc a l'Antonia capturada i la primera cosa que hauràs de fer és desxifrar on.</p>
+      <p>Quan aconsegueixis treure l'entrellat d'aquesta prova, obtindràs la direcció d'on estem</p>
+      <p>I recorda, això es un joc de 3 😉</p>
+    </ExpandableLetter>
+    {correct && 
+      <Letter>
+        <p>Genial! Ara ja saps on venir a buscar a la teva amiga.</p>
+        <a href="/prova2" class="text-center">Anar</a>
+      </Letter>
+    }
+    <Letter>
+      <p>Direcció xifrada:</p>
+      <code class="bg-orange-950 text-orange-200 rounded-md p-2">
+        Fduuhu Hqljpd V/Q
+      </code>
+      <form method="post" class="flex flex-col gap-5">
+        <div class="flex flex-col gap-1">
+          <input type="text" placeholder="Introdueix la teva resposta" name="solution" disabled={correct} value={correct ? 'Carrer Enigma S/N' : ''} required>
+          <p class="text-xs mt-0">{message}</p>
+        </div>
+        <input type="submit">
+      </form>
+    </Letter>
+  </div>
+</MainLayout>

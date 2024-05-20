@@ -1,0 +1,21 @@
+---
+import "@fontsource-variable/raleway"
+import "@fontsource/merriweather"
+import "../components/GlobalStyles.astro"
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<link type="" />
+		<title>Red Queen</title>
+	</head>
+	<body>
+		<main class="p-5">
+			<slot/>
+		</main>
+	</body>
+</html>
