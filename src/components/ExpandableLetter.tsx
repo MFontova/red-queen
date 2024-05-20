@@ -1,6 +1,6 @@
 import { CaretDown } from "@/icons/CaretDown"
 import type React from "react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 interface ExpandableLetterProps {
   expanded: boolean,
