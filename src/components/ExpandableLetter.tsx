@@ -1,4 +1,5 @@
 import { CaretDown } from "@/icons/CaretDown"
+import { CaretUp } from "@/icons/CaretUp"
 import type React from "react"
 import { useState } from "react"
 
@@ -20,7 +21,7 @@ export const ExpandableLetter: React.FC<ExpandableLetterProps> = ({expanded, chi
         <p className="font-bold">Carta de Malo Maloso</p>
         {
           expandedState
-            ? <CaretDown/>
+            ? <CaretUp/>
             : <CaretDown/>
         }
       </div>
