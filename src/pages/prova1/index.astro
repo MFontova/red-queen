@@ -49,6 +49,9 @@ if(Astro.request.method === "POST") {
       </Letter>
     }
     <ExpandableLetter expanded={expandedLetter} client:idle>
+      <figure>
+        <img src="/public/images/map.png" alt="" class="h-28 rounded-md mx-auto shadow-md shadow-slate-400">
+      </figure>
       <p>Aquesta és la primera prova a la que t'enfrentaràs avui. Com t'he dit, tinc a l'Antonia capturada i la primera cosa que hauràs de fer és desxifrar on.</p>
       <p>Quan aconsegueixis treure l'entrellat d'aquesta prova, obtindràs la direcció d'on estem</p>
       <p>I recorda, això es un joc de 3 😉</p>

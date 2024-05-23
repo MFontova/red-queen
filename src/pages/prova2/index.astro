@@ -48,6 +48,9 @@ if(Astro.request.method === "POST") {
         </Letter>
     }
     <ExpandableLetter expanded={expandedLetter} client:idle>
+      <figure>
+        <img src="/public/images/door.png" alt="" class="h-28 rounded-md mx-auto shadow-md shadow-slate-400">
+      </figure>
       <p>Ara que has aconseguit desxifrar el primer enigma, t'he de confesar que era molt senzill. Aquesta vegada t'ho posaré una mica més difícil.</p>
       <p>Davant teu tens l'edifici on estem l'Antonia i jo. Per accedir només existeix una manera: a través de la porta principal. Aquesta porta té tres sistemes de seguretat. Els hauràs de resoldre els tres per obrir-la.</p>
     </ExpandableLetter>

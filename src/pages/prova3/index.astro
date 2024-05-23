@@ -49,6 +49,9 @@ if(Astro.request.method === 'POST') {
         </Letter>
     }
     <ExpandableLetter expanded={letterExpanded} client:idle>
+      <figure>
+        <img src="/public/images/building.png" alt="" class="h-28 rounded-md mx-auto shadow-md shadow-slate-400">
+      </figure>
       <p>Com pots veure, aquest edifici és bastant gran. Té 4 plantes i un total de 20 habitacions.</p>
       <p>En alguna d'aquestes habitacions hi som l'Antonia i jo. Per descobrir quina habitació és, només contaràs amb dos pistes:</p>
       <ul class="list-disc ps-5">
